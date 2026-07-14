@@ -4,6 +4,63 @@ Listly is a local-first browser tool that helps Amazon sellers write product con
 
 ![Listly application overview](docs/screenshots/app-overview.png)
 
+## How to use it
+
+No account, no install, no sign-up. Just open the link and start typing.
+
+**[→ Open Listly in your browser](https://leonkaushikdeka.github.io/listly-amazon-listing-studio/)**
+
+### Step 1 — Fill in your product details
+
+Fill in the left panel:
+
+- **Product name** — what the item actually is (e.g. *Insulated stainless steel water bottle*)
+- **Brand** — your brand name
+- **Key features** — one benefit per line, up to 5 (e.g. *Keeps drinks cold for 24 hours*)
+- **Ideal customer** — who buys this (e.g. *hikers, commuters, gym-goers*)
+- **Search keywords** — words shoppers type to find it; press Enter after each one
+- **Voice** — pick Clear, Premium, or Energetic depending on your brand tone
+
+You don't have to fill everything — just product name, brand, and a few features is enough to get started.
+
+### Step 2 — Generate your listing
+
+Click **✦ Generate my listing** (or press Ctrl+Enter / Cmd+Enter).
+
+Listly writes a title, bullet points, and a product description for you. You can click into any section and edit it directly.
+
+The score ring on the right updates as you fill things in — aim for 85+.
+
+### Step 3 — Export
+
+**Just want the text?** Click the copy button next to each section, or click ⧉ at the top of the preview to copy everything at once.
+
+**Want a CSV file?** Click **Export prep CSV** at the top right. This gives you a spreadsheet you can use as a reference or import into other tools.
+
+**Want to fill Amazon's official template?** 
+1. In Amazon Seller Central go to **Catalog → Add Products → Spreadsheet** and download the blank template for your category.
+2. Back in Listly, scroll down to **Create Amazon upload workbook** and upload that blank file.
+3. Listly fills in your listing data and you download a ready-to-upload `.xlsx` file.
+
+![Amazon workbook tool](docs/screenshots/amazon-template-export.png)
+
+### Selling multiple sizes or colors?
+
+Toggle **This product has variations** in the left panel.
+
+1. Choose **New variation family** (or **Add to existing family** if the parent already exists on Amazon).
+2. Pick your variation theme — Size, Color, or both.
+3. Enter a parent SKU (make it up — it's just a grouping label).
+4. Use the **Quick-add** buttons to select every size you sell.
+5. Enter a SKU prefix, default price, and stock once — Listly creates a row for each size.
+6. Edit only the rows that are different (e.g. 2XL at a higher price).
+
+![Bulk variation builder](docs/screenshots/bulk-variations.png)
+
+Your work saves automatically in the browser. Nothing is sent to any server.
+
+---
+
 ## Why this exists
 
 Adding a shirt in S, M, L, and XL should not mean rewriting the same title, bullets, description, brand, and keywords four times. Adding one new size to an existing family should not mean rebuilding the entire family either.

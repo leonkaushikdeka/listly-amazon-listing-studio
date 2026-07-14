@@ -7,7 +7,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tutorial:fixture": "node scripts/create-demo-amazon-template.js",
+    "tutorial:record": "node scripts/record-amazon-workbook-tutorial.js",
+    "tutorial:media": "node scripts/convert-tutorial-video.js",
+    "tutorial": "npm run tutorial:fixture && npm run tutorial:record && npm run tutorial:media"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,9 @@
   "homepage": "https://github.com/leonkaushikdeka/listly-amazon-listing-studio#readme",
   "dependencies": {
     "playwright": "^1.61.1"
+  },
+  "devDependencies": {
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0"
   }
 }

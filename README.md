@@ -6,6 +6,14 @@ Listly is a local-first browser tool that helps Amazon sellers write product con
 
 ![Listly application overview](docs/screenshots/app-overview.png)
 
+## Video tutorial: create an Amazon upload workbook
+
+[![Recorded walkthrough: create an Amazon upload workbook in Listly](docs/tutorial/listly-amazon-workbook-walkthrough.gif)](docs/tutorial/listly-amazon-workbook-walkthrough.webm)
+
+Watch a real Playwright-recorded example that creates a size variation family, maps a blank workbook, and downloads the filled result. The demo workbook is synthetic and is **not** safe to upload to Seller Central.
+
+See [the full Seller Central workbook tutorial](docs/SELLER-CENTRAL-WORKBOOK-TUTORIAL.md) for the exact Seller Central path, example files, mapping checks, and the final processing-report review.
+
 ## How to use it
 
 No account, no install, no sign-up. Just open the link and start typing.

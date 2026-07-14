@@ -14,6 +14,8 @@ Watch a real Playwright-recorded example that creates a size variation family, m
 
 See [the full Seller Central workbook tutorial](docs/SELLER-CENTRAL-WORKBOOK-TUTORIAL.md) for the exact Seller Central path, example files, mapping checks, and the final processing-report review.
 
+Prefer guided help in the app? Select **Tutorial** in Listly for click-by-click spotlight cues. The website tour does not play or embed the video.
+
 ## How to use it
 
 No account, no install, no sign-up. Just open the link and start typing.

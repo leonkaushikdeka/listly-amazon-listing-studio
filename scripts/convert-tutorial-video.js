@@ -52,7 +52,7 @@ try {
     "-vf",
     "scale=960:-1:flags=lanczos",
     "-r",
-    "5",
+    "6",
     path.join(framesRoot, "frame-%03d.png")
   ], { stdio: "inherit" });
 
@@ -72,11 +72,11 @@ try {
 
   frameNames.forEach(function (name, frameNumber) {
     const frame = PNG.sync.read(fs.readFileSync(path.join(framesRoot, name)));
-    const palette = quantize(frame.data, 128, { format: "rgb444" });
-    const indexed = applyPalette(frame.data, palette, "rgb444");
+    const palette = quantize(frame.data, 256, { format: "rgb565" });
+    const indexed = applyPalette(frame.data, palette, "rgb565");
     gif.writeFrame(indexed, frame.width, frame.height, {
       palette: palette,
-      delay: 200,
+      delay: 170,
       repeat: frameNumber === 0 ? 0 : undefined
     });
   });

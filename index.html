@@ -43,6 +43,7 @@
           <div class="breadcrumbs"><span>My workspace</span><i>/</i><strong>New listing</strong></div>
           <div class="top-actions">
             <span class="save-state" id="saveState">Saved locally</span>
+            <button class="btn btn-tutorial" id="tutorialBtn" type="button" aria-haspopup="dialog" aria-controls="tutorialTour"><span aria-hidden="true">&#9654;</span><span>Tutorial</span></button>
             <button class="btn btn-secondary" id="resetBtn">New draft</button>
             <button class="btn btn-primary" id="exportBtn"><span id="exportLabel">Export prep CSV</span><span>↗</span></button>
           </div>
@@ -283,6 +284,23 @@
           </div>
         </div>
       </main>
+    </div>
+
+    <div class="tutorial-tour" id="tutorialTour" role="dialog" aria-label="Listly guided tutorial" aria-modal="false" hidden>
+      <div class="tutorial-highlight" id="tutorialHighlight" aria-hidden="true"></div>
+      <aside class="tutorial-cue" id="tutorialCue" tabindex="-1" aria-live="polite">
+        <header>
+          <span id="tutorialProgress">STEP 1 OF 11</span>
+          <button id="tutorialClose" type="button" aria-label="Close tutorial">&times;</button>
+        </header>
+        <strong id="tutorialCueTitle">Start with Amazon's blank template</strong>
+        <p id="tutorialCueBody">In Seller Central, open Catalog &gt; Add Products &gt; Spreadsheet and download the template for the correct marketplace, category, and product type.</p>
+        <small>Follow the highlighted areas. Your current draft will not be changed.</small>
+        <footer>
+          <button class="btn btn-secondary" id="tutorialPrevBtn" type="button">Previous</button>
+          <button class="btn btn-primary" id="tutorialNextBtn" type="button">Next</button>
+        </footer>
+      </aside>
     </div>
 
     <div class="toast" id="toast" role="status"></div>

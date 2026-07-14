@@ -160,13 +160,39 @@ async function recordTutorial() {
   let browser;
   try {
     browser = await chromium.launch({ headless: true });
+    const smokeContext = await browser.newContext({
+      colorScheme: "light",
+      viewport: { width: 390, height: 844 }
+    });
+    await smokeContext.addInitScript(function () {
+      window.localStorage.clear();
+    });
+    const smokePage = await smokeContext.newPage();
+    await smokePage.goto(serverInfo.baseUrl + "/index.html", { waitUntil: "networkidle" });
+    await smokePage.locator("#tutorialBtn").click();
+    await smokePage.waitForFunction(function () {
+      return !document.getElementById("tutorialTour").hidden;
+    });
+    await smokePage.locator("#tutorialNextBtn").click();
+    await smokePage.waitForFunction(function () {
+      return document.getElementById("tutorialProgress").textContent === "STEP 2 OF 11";
+    });
+    if (!(await smokePage.locator("#tutorialPrevBtn").isVisible())) {
+      throw new Error("Tutorial previous control is hidden on mobile.");
+    }
+    await smokePage.locator("#tutorialClose").click();
+    await smokePage.waitForFunction(function () {
+      return document.getElementById("tutorialTour").hidden;
+    });
+    await smokeContext.close();
+
     const context = await browser.newContext({
       acceptDownloads: true,
       colorScheme: "light",
       viewport: { width: 1440, height: 960 },
       recordVideo: {
         dir: recordingsRoot,
-        size: { width: 1440, height: 960 }
+        size: { width: 960, height: 640 }
       }
     });
     await context.addInitScript(function () {

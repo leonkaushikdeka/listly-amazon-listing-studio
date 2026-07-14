@@ -1016,6 +1016,190 @@ function toast(message) {
   toastTimer = setTimeout(() => element.classList.remove("show"), 2200);
 }
 
+const tutorialSteps = [
+  {
+    target: null,
+    title: "Start with Amazon's blank template",
+    body: "In Seller Central, open Catalog > Add Products > Spreadsheet and download the template for the correct marketplace, category, and product type."
+  },
+  {
+    target: "#marketplace",
+    title: "Choose the marketplace and category",
+    body: "Start here so the draft reflects where and what you sell. The category selector is beside the marketplace."
+  },
+  {
+    target: "#productName",
+    title: "Enter the core product details",
+    body: "Add the product name, then complete the brand, model, product identifier, SKU, price, and stock fields below it."
+  },
+  {
+    target: ".variation-section",
+    title: "Turn on variations when needed",
+    body: "Use this switch for size or color families. Listly will guide you through the parent SKU and buyable child rows."
+  },
+  {
+    target: "#features",
+    title: "Write one benefit per line",
+    body: "Add three to five accurate product features. These become the benefit-led bullet points in the generated listing."
+  },
+  {
+    target: "#keywords",
+    title: "Add shopper search terms",
+    body: "Type a keyword and press Enter. Add the phrases customers are most likely to use for this product."
+  },
+  {
+    target: ".generate-btn",
+    title: "Generate the listing",
+    body: "Select this button after the required fields are complete. You can edit every generated section before export."
+  },
+  {
+    target: ".output-panel",
+    title: "Review the listing and checks",
+    body: "Read the title, bullets, description, score, claims, and variation rows. Correct anything inaccurate before continuing."
+  },
+  {
+    target: function () { return state.generated ? "#templateDrop" : ".output-panel"; },
+    title: "Choose Amazon's blank .xlsx",
+    body: "After generating the listing, choose the untouched workbook downloaded from Seller Central. Listly will detect its listing headers."
+  },
+  {
+    target: function () { return selectedAmazonTemplate ? "#fillTemplateBtn" : (state.generated ? "#templateDrop" : ".output-panel"); },
+    title: "Check the mapping, then download",
+    body: "Confirm the detected sheet, header row, matched fields, and critical columns. Then fill and download the workbook ending in -filled.xlsx."
+  },
+  {
+    target: null,
+    title: "Finish in Seller Central",
+    body: "Return to the Spreadsheet page, upload the -filled.xlsx file, and resolve every category-specific item in Amazon's processing report."
+  }
+];
+
+let tutorialStepIndex = 0;
+let tutorialPositionTimer;
+let tutorialPositionFrame;
+let tutorialPreviousFocus;
+
+function tutorialTargetForStep(step) {
+  const selector = typeof step.target === "function" ? step.target() : step.target;
+  if (!selector) return null;
+  const target = $(selector);
+  return target?.getClientRects().length ? target : $(".output-panel");
+}
+
+function positionTutorialCue() {
+  const tour = $("#tutorialTour");
+  if (tour.hidden) return;
+  const step = tutorialSteps[tutorialStepIndex];
+  const target = tutorialTargetForStep(step);
+  const highlight = $("#tutorialHighlight");
+  const cue = $("#tutorialCue");
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const edge = 12;
+
+  if (!target) {
+    highlight.classList.add("centered");
+    Object.assign(highlight.style, {
+      left: (viewportWidth / 2) + "px",
+      top: (viewportHeight / 2) + "px",
+      width: "0px",
+      height: "0px"
+    });
+    cue.style.left = Math.max(edge, (viewportWidth - cue.offsetWidth) / 2) + "px";
+    cue.style.top = Math.max(edge, (viewportHeight - cue.offsetHeight) / 2) + "px";
+    return;
+  }
+
+  highlight.classList.remove("centered");
+  const rect = target.getBoundingClientRect();
+  const highlightTop = Math.max(7, rect.top - 7);
+  const highlightLeft = Math.max(7, rect.left - 7);
+  const highlightRight = Math.min(viewportWidth - 7, rect.right + 7);
+  const highlightBottom = Math.min(viewportHeight - 7, rect.bottom + 7);
+  Object.assign(highlight.style, {
+    left: highlightLeft + "px",
+    top: highlightTop + "px",
+    width: Math.max(34, highlightRight - highlightLeft) + "px",
+    height: Math.max(34, highlightBottom - highlightTop) + "px"
+  });
+
+  const cueWidth = cue.offsetWidth;
+  const cueHeight = cue.offsetHeight;
+  let cueLeft = Math.min(Math.max(edge, rect.left), viewportWidth - cueWidth - edge);
+  const below = rect.bottom + 16;
+  const above = rect.top - cueHeight - 16;
+  let cueTop = below + cueHeight <= viewportHeight - edge ? below : above;
+  cueTop = Math.min(Math.max(edge, cueTop), viewportHeight - cueHeight - edge);
+
+  if (rect.width > cueWidth + 40 && cueTop < rect.bottom && cueTop + cueHeight > rect.top) {
+    cueLeft = Math.min(viewportWidth - cueWidth - edge, rect.right - cueWidth - 12);
+  }
+
+  cue.style.left = cueLeft + "px";
+  cue.style.top = cueTop + "px";
+}
+
+function scheduleTutorialPosition() {
+  if ($("#tutorialTour").hidden) return;
+  cancelAnimationFrame(tutorialPositionFrame);
+  tutorialPositionFrame = requestAnimationFrame(positionTutorialCue);
+}
+
+function renderTutorialStep(index, scroll = true) {
+  tutorialStepIndex = Math.min(Math.max(index, 0), tutorialSteps.length - 1);
+  const step = tutorialSteps[tutorialStepIndex];
+  $("#tutorialProgress").textContent = "STEP " + (tutorialStepIndex + 1) + " OF " + tutorialSteps.length;
+  $("#tutorialCueTitle").textContent = step.title;
+  $("#tutorialCueBody").textContent = step.body;
+  $("#tutorialCue > small").textContent = step.target
+    ? "Click the highlighted area when you are ready, then use Next."
+    : "Use Next to continue. Your current draft will not be changed.";
+  $("#tutorialPrevBtn").disabled = tutorialStepIndex === 0;
+  $("#tutorialNextBtn").textContent = tutorialStepIndex === tutorialSteps.length - 1 ? "Finish" : "Next";
+
+  const target = tutorialTargetForStep(step);
+  clearTimeout(tutorialPositionTimer);
+  if (target && scroll) {
+    target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    tutorialPositionTimer = setTimeout(positionTutorialCue, 380);
+  } else {
+    positionTutorialCue();
+  }
+}
+
+function openTutorial() {
+  tutorialPreviousFocus = document.activeElement;
+  $(".sidebar").classList.remove("open");
+  $("#tutorialTour").hidden = false;
+  renderTutorialStep(0, false);
+  $("#tutorialCue").focus({ preventScroll: true });
+}
+
+function closeTutorial() {
+  clearTimeout(tutorialPositionTimer);
+  $("#tutorialTour").hidden = true;
+  (tutorialPreviousFocus || $("#tutorialBtn")).focus?.({ preventScroll: true });
+}
+
+function moveTutorial(direction) {
+  const next = tutorialStepIndex + direction;
+  if (next >= tutorialSteps.length) return closeTutorial();
+  renderTutorialStep(next);
+}
+
+$("#tutorialBtn").addEventListener("click", openTutorial);
+$("#tutorialClose").addEventListener("click", closeTutorial);
+$("#tutorialPrevBtn").addEventListener("click", () => moveTutorial(-1));
+$("#tutorialNextBtn").addEventListener("click", () => moveTutorial(1));
+window.addEventListener("resize", scheduleTutorialPosition);
+window.addEventListener("scroll", scheduleTutorialPosition, { passive: true });
+document.addEventListener("keydown", (event) => {
+  if ($("#tutorialTour").hidden) return;
+  if (event.key === "Escape") { event.preventDefault(); closeTutorial(); }
+  if (event.key === "ArrowRight") { event.preventDefault(); moveTutorial(1); }
+  if (event.key === "ArrowLeft") { event.preventDefault(); moveTutorial(-1); }
+});
+
 form.addEventListener("submit", generateListing);
 $("#addKeywordBtn").addEventListener("click", addKeyword);
 $("#keywordInput").addEventListener("keydown", (event) => {
@@ -1159,7 +1343,7 @@ $("#templateDrop").addEventListener("drop", (event) => {
   else toast("Choose an .xlsx Amazon template");
 });
 document.addEventListener("keydown", (event) => {
-  if ((event.metaKey || event.ctrlKey) && event.key === "Enter") generateListing(event);
+  if ($("#tutorialTour").hidden && (event.metaKey || event.ctrlKey) && event.key === "Enter") generateListing(event);
 });
 
 loadDraft();

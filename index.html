@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create, score, and export conversion-focused Amazon product listings." />
+    <title>Listly — Amazon Listing Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="Listly home">
+          <span class="brand-mark">L</span>
+          <span>listly</span>
+        </a>
+
+        <nav class="nav" aria-label="Main navigation">
+          <p class="nav-label">Workspace</p>
+          <a class="nav-item active" href="#builder"><span>✦</span> Listing builder</a>
+          <a class="nav-item" href="#keywords"><span>⌕</span> Keyword bank <b id="keywordNavCount">0</b></a>
+          <a class="nav-item" href="#quality"><span>◈</span> Quality check</a>
+        </nav>
+
+        <div class="side-tip">
+          <span class="tip-icon">↗</span>
+          <strong>Quick tip</strong>
+          <p>Lead with what the product is, then add your strongest differentiator.</p>
+        </div>
+
+        <div class="privacy-note">
+          <span>●</span>
+          <p><strong>Private by default</strong><br />Your drafts stay in this browser.</p>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰</button>
+          <div class="breadcrumbs"><span>My workspace</span><i>/</i><strong>New listing</strong></div>
+          <div class="top-actions">
+            <span class="save-state" id="saveState">Saved locally</span>
+            <button class="btn btn-secondary" id="resetBtn">New draft</button>
+            <button class="btn btn-primary" id="exportBtn"><span id="exportLabel">Export prep CSV</span><span>↗</span></button>
+          </div>
+        </header>
+
+        <div class="page">
+          <section class="hero" id="builder">
+            <div>
+              <span class="eyebrow">LISTING STUDIO</span>
+              <h1>Turn product details into<br /><em>a listing that sells.</em></h1>
+              <p>Build a clear, keyword-rich listing and check it before you publish.</p>
+            </div>
+            <div class="score-card" id="quality">
+              <div class="score-ring" id="scoreRing"><span id="scoreValue">0</span><small>/100</small></div>
+              <div><span class="score-label">LISTING SCORE</span><strong id="scoreMessage">Add product details</strong><p id="scoreDetail">We’ll score clarity, keywords, and completeness.</p></div>
+            </div>
+          </section>
+
+          <div class="workspace-grid">
+            <section class="panel input-panel">
+              <div class="panel-heading">
+                <div><span class="step">01</span><h2>Product details</h2></div>
+                <span class="required-note">* Required fields</span>
+              </div>
+
+              <form id="listingForm">
+                <div class="field-row">
+                  <label>Marketplace
+                    <select id="marketplace" name="marketplace">
+                      <option value="US">Amazon.com — United States</option>
+                      <option value="UK">Amazon.co.uk — United Kingdom</option>
+                      <option value="IN">Amazon.in — India</option>
+                      <option value="CA">Amazon.ca — Canada</option>
+                    </select>
+                  </label>
+                  <label>Category
+                    <select id="category" name="category">
+                      <option>Home & Kitchen</option>
+                      <option>Beauty & Personal Care</option>
+                      <option>Sports & Outdoors</option>
+                      <option>Electronics</option>
+                      <option>Pet Supplies</option>
+                      <option>Clothing & Accessories</option>
+                      <option>Other</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>Product name <span>*</span>
+                  <input id="productName" name="productName" required maxlength="80" placeholder="e.g. Insulated stainless steel water bottle" />
+                </label>
+
+                <div class="field-row">
+                  <label>Brand <span>*</span>
+                    <input id="brand" name="brand" required maxlength="40" placeholder="e.g. Northpeak" />
+                  </label>
+                  <label>Model / style
+                    <input id="model" name="model" maxlength="40" placeholder="e.g. Classic crew neck" />
+                  </label>
+                </div>
+
+                <div class="field-row">
+                  <label>Product ID type
+                    <select id="productIdType" name="productIdType">
+                      <option value="UPC">UPC</option>
+                      <option value="EAN">EAN</option>
+                      <option value="GTIN_EXEMPT">GTIN exemption</option>
+                    </select>
+                  </label>
+                  <label id="productIdField">Product ID <span id="productIdRequired">*</span>
+                    <input id="productId" name="productId" required maxlength="20" placeholder="e.g. 012345678905" />
+                  </label>
+                </div>
+
+                <section class="single-offer-section" id="singleOfferSection">
+                  <div class="offer-heading"><span>↳</span><div><strong>Offer details</strong><small>Required for a product customers can purchase</small></div></div>
+                  <div class="offer-grid">
+                    <label>Seller SKU <span>*</span>
+                      <input id="sellerSku" name="sellerSku" required maxlength="40" placeholder="e.g. TEE-CLASSIC-M" />
+                    </label>
+                    <label>Price <span>*</span>
+                      <div class="standalone-price"><span id="singlePriceCurrency">$</span><input id="price" name="price" type="number" min="0.01" step="0.01" required placeholder="0.00" /></div>
+                    </label>
+                    <label>Stock <span>*</span>
+                      <input id="stock" name="stock" type="number" min="0" step="1" required value="0" />
+                    </label>
+                  </div>
+                </section>
+
+                <section class="variation-section">
+                  <div class="variation-toggle-row">
+                    <div>
+                      <span class="variation-icon">⌘</span>
+                      <div><strong>This product has variations</strong><small>Group sizes or colors under one listing</small></div>
+                    </div>
+                    <label class="switch" aria-label="Enable product variations">
+                      <input type="checkbox" id="variationsEnabled" />
+                      <span></span>
+                    </label>
+                  </div>
+
+                  <div class="variation-editor hidden" id="variationEditor">
+                    <div class="variation-explainer"><span>i</span><p><strong>One parent, multiple buyable children.</strong> Each child can have its own price and stock while sharing this listing’s content.</p></div>
+                    <div class="family-mode-control" id="familyModeControl">
+                      <button type="button" data-family-mode="new" class="selected"><strong>New variation family</strong><small>Create and upload all sizes together</small></button>
+                      <button type="button" data-family-mode="existing"><strong>Add to existing family</strong><small>Export only the new child sizes</small></button>
+                    </div>
+                    <div class="field-row">
+                      <label>Variation theme
+                        <select id="variationTheme">
+                          <option value="Size">Size</option>
+                          <option value="Color">Color</option>
+                          <option value="SizeColor">Size & color</option>
+                        </select>
+                      </label>
+                      <label>Parent SKU <span>*</span>
+                        <input id="parentSku" maxlength="40" placeholder="e.g. TEE-CLASSIC-PARENT" />
+                      </label>
+                    </div>
+
+                    <div class="bulk-size-builder" id="bulkSizeBuilder">
+                      <div class="bulk-heading"><div><strong>Quick-add shirt sizes</strong><small>Select every size you sell. Shared listing copy is filled automatically.</small></div><span id="selectedSizeCount">0 selected</span></div>
+                      <div class="size-presets" id="sizePresets">
+                        <button type="button" data-size="XS">XS</button>
+                        <button type="button" data-size="S">S</button>
+                        <button type="button" data-size="M">M</button>
+                        <button type="button" data-size="L">L</button>
+                        <button type="button" data-size="XL">XL</button>
+                        <button type="button" data-size="2XL">2XL</button>
+                        <button type="button" data-size="3XL">3XL</button>
+                      </div>
+                      <div class="bulk-defaults">
+                        <label>SKU prefix
+                          <input id="bulkSkuPrefix" maxlength="30" placeholder="e.g. CLASSIC-TEE" />
+                        </label>
+                        <label>Default price
+                          <input id="bulkPrice" type="number" min="0.01" step="0.01" placeholder="19.99" />
+                        </label>
+                        <label>Stock per size
+                          <input id="bulkStock" type="number" min="0" step="1" value="0" />
+                        </label>
+                      </div>
+                      <button type="button" class="create-sizes-btn" id="createSizesBtn">✦ Create selected sizes</button>
+                      <p>After creating them, change only the rows that differ—for example, give 2XL a higher price.</p>
+                    </div>
+
+                    <div class="variant-table-wrap">
+                      <div class="variant-table-head" id="variantTableHead">
+                        <span data-column="size">Size</span><span data-column="color">Color</span><span>Child SKU</span><span data-column="product-id">Product ID</span><span>Price</span><span>Stock</span><span></span>
+                      </div>
+                      <div id="variantRows"></div>
+                    </div>
+                    <button type="button" class="add-variant-btn" id="addVariantBtn"><span>＋</span> Add another variation</button>
+                    <p class="variation-note">The parent has no price. Prices belong to the child sizes customers can buy. The export is a preparation sheet; map it to Amazon’s category-specific inventory template before upload.</p>
+                  </div>
+                </section>
+
+                <label>Key features <span>*</span><small>One feature or benefit per line</small>
+                  <textarea id="features" name="features" required rows="6" placeholder="Keeps drinks cold for 24 hours&#10;Leak-proof twist lid&#10;Food-grade 18/8 stainless steel&#10;Fits standard cup holders"></textarea>
+                </label>
+
+                <label>Ideal customer
+                  <input id="audience" name="audience" maxlength="80" placeholder="e.g. hikers, commuters and gym-goers" />
+                </label>
+
+                <label>Voice
+                  <div class="segmented" id="toneControl">
+                    <button type="button" data-tone="Clear" class="selected">Clear</button>
+                    <button type="button" data-tone="Premium">Premium</button>
+                    <button type="button" data-tone="Energetic">Energetic</button>
+                  </div>
+                </label>
+
+                <div class="keyword-section" id="keywords">
+                  <div class="keyword-title"><label for="keywordInput">Search keywords</label><span id="keywordCount">0 / 10</span></div>
+                  <div class="keyword-input-wrap">
+                    <input id="keywordInput" placeholder="Type a keyword, then press Enter" />
+                    <button type="button" id="addKeywordBtn">Add</button>
+                  </div>
+                  <div class="keyword-chips" id="keywordChips"></div>
+                </div>
+
+                <button type="submit" class="generate-btn"><span>✦</span> Generate my listing <kbd>⌘ ↵</kbd></button>
+              </form>
+            </section>
+
+            <section class="panel output-panel" aria-live="polite">
+              <div class="panel-heading">
+                <div><span class="step dark">02</span><h2>Listing preview</h2></div>
+                <button class="icon-btn" id="copyAllBtn" title="Copy full listing" aria-label="Copy full listing">⧉</button>
+              </div>
+
+              <div class="empty-state" id="emptyState">
+                <div class="empty-art"><span>✦</span><i></i><b></b></div>
+                <h3>Your listing will appear here</h3>
+                <p>Complete the product details and generate a polished first draft.</p>
+                <div class="preview-skeleton"><span></span><span></span><span></span></div>
+              </div>
+
+              <div class="listing-output hidden" id="listingOutput">
+                <article class="output-block">
+                  <div class="output-meta"><span>TITLE</span><span id="titleCount">0 / 200</span></div>
+                  <textarea id="titleOutput" rows="4" maxlength="200"></textarea>
+                  <button class="mini-copy" data-copy="titleOutput">Copy</button>
+                </article>
+                <article class="output-block">
+                  <div class="output-meta"><span>KEY FEATURES</span><span id="bulletCount">0 bullets</span></div>
+                  <div id="bulletsOutput" class="bullet-list"></div>
+                  <button class="mini-copy" data-copy="bulletsOutput">Copy</button>
+                </article>
+                <article class="output-block">
+                  <div class="output-meta"><span>DESCRIPTION</span><span id="descriptionCount">0 characters</span></div>
+                  <textarea id="descriptionOutput" rows="8" maxlength="2000"></textarea>
+                  <button class="mini-copy" data-copy="descriptionOutput">Copy</button>
+                </article>
+                <article class="output-block variant-output-block hidden" id="variantOutputBlock">
+                  <div class="output-meta"><span>VARIATION FAMILY</span><span id="variantOutputCount">0 children</span></div>
+                  <div class="parent-preview"><span>Parent</span><strong id="parentSkuPreview"></strong><small id="parentPreviewNote">No price — grouping record</small></div>
+                  <div id="variantPreview" class="variant-preview"></div>
+                </article>
+                <div class="checks" id="checks"></div>
+                <section class="amazon-template-tool">
+                  <div class="template-tool-heading">
+                    <span>03</span>
+                    <div><strong>Create Amazon upload workbook</strong><small>Use the blank .xlsx downloaded from Seller Central</small></div>
+                  </div>
+                  <label class="template-drop" id="templateDrop" for="amazonTemplateFile">
+                    <input id="amazonTemplateFile" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                    <span>⇧</span>
+                    <div><strong id="templateFileName">Choose Amazon template</strong><small>The file is processed locally in your browser</small></div>
+                  </label>
+                  <div class="template-status" id="templateStatus">No Amazon template selected</div>
+                  <div class="mapping-report hidden" id="mappingReport"></div>
+                  <button type="button" class="fill-template-btn" id="fillTemplateBtn" disabled>Fill and download Amazon workbook</button>
+                </section>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

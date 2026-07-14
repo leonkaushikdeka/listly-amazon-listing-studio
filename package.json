@@ -1,0 +1,27 @@
+{
+  "name": "amazon-listing-assistant",
+  "version": "1.0.0",
+  "description": "Listly is a local-first browser tool that helps Amazon sellers write product content once, create size and color variation families in bulk, and fill Amazon's category-specific upload workbook.",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonkaushikdeka/listly-amazon-listing-studio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/leonkaushikdeka/listly-amazon-listing-studio/issues"
+  },
+  "homepage": "https://github.com/leonkaushikdeka/listly-amazon-listing-studio#readme",
+  "dependencies": {
+    "playwright": "^1.61.1"
+  }
+}

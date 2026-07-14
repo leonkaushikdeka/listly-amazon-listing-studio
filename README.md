@@ -2,7 +2,7 @@
 
 Listly is a local-first browser tool that helps Amazon sellers write product content once, create size and color variation families in bulk, and fill Amazon's category-specific upload workbook.
 
-![Listly application overview](docs/screenshots/app-overview.svg)
+![Listly application overview](docs/screenshots/app-overview.png)
 
 ## Why this exists
 
@@ -34,7 +34,7 @@ Listly reduces that repeated work:
 
 ## Variation workflow
 
-![Bulk variation builder](docs/screenshots/bulk-variations.svg)
+![Bulk variation builder](docs/screenshots/bulk-variations.png)
 
 ### Create a new family
 
@@ -61,7 +61,7 @@ Only the new child row is exported, already linked to the existing parent. The c
 
 ## Create the Amazon upload workbook
 
-![Amazon workbook tool](docs/screenshots/amazon-template-export.svg)
+![Amazon workbook tool](docs/screenshots/amazon-template-export.png)
 
 1. In Seller Central, open **Catalog → Add Products → Spreadsheet**.
 2. Download the blank template for the correct marketplace, category, and product type.
@@ -98,8 +98,8 @@ See [docs/WORKFLOW.md](docs/WORKFLOW.md) for the detailed data and workbook flow
 No build step or API key is required.
 
 ```bash
-git clone https://github.com/leonkaushikdeka/amazon-listing-assistant.git
-cd amazon-listing-assistant
+git clone https://github.com/leonkaushikdeka/listly-amazon-listing-studio.git
+cd listly-amazon-listing-studio
 python -m http.server 8080
 ```
 

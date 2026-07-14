@@ -2,6 +2,8 @@
 
 Listly is a local-first browser tool that helps Amazon sellers write product content once, create size and color variation families in bulk, and fill Amazon's category-specific upload workbook.
 
+**[→ Use it here: leonkaushikdeka.github.io/listly-amazon-listing-studio](https://leonkaushikdeka.github.io/listly-amazon-listing-studio/)**
+
 ![Listly application overview](docs/screenshots/app-overview.png)
 
 ## How to use it
